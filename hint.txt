@@ -1,0 +1,7 @@
+The state-of-the-art for off-line HTR (handwritten text recognition) is a bunch of LSTMs + n-grams, which work better than the traditional setting of GMM-HMM + n-grams. This is approximately the same setting than people from Speech use.
+
+In principle, you could stack a RNN on top of a ConvNet, the output of a ConvNet is just an "image" with a bunch of channels (one for each filter). Just keep in mind not to reduce the dimensionality too much, since your RNN will have to output probably long sequences ~100s of timesteps. However, AFAIK nobody uses CNN, they just use 3-5 layers of bidirectional LSTMs.
+
+Don't use fake training data. You could, but the results won't be realistic at all. Yes, IAM is a good starting point, and yes, it is small for what other subfields in Pattern Recognition / Machine Learning are used to, but it is still one of the standard benchmarks for HTR. If you want to augment your training data, apply small distortions to the image lines like these: http://arxiv.org/pdf/1009.3589.pdf
+
+Although it is, in principle, possible to use the output of the LSTM as the predicted transcription, everybody uses a n-gram language model on top of the LSTM. Take a look at Kaldi (a toolkit for speech recognition) which has nice examples to do this.
